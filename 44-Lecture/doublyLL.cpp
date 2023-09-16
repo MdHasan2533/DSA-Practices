@@ -15,6 +15,16 @@ public:
         this->prev = NULL;
         this->next = NULL;
     }
+
+    //distructor
+    ~Node(){
+        int val = this->data;
+        if(next != NULL){
+            delete next;
+            next = NULL;
+        }
+        cout<< "Memory free for node with data : "<< val << endl;
+    }
 };
 
 // Traversing the linked list
@@ -112,6 +122,40 @@ void insertAtPosition(Node *&tail, Node *&head, int position, int d)
     // chaaro pointers point ho gaye
 }
 
+void deleteNode(int position, Node *&head)
+{
+
+    // deleting first or start node
+    if (position == 1)
+    {
+        Node* temp = head;
+        temp -> next -> prev = NULL;
+        head = temp -> next;
+        temp -> next = NULL;
+        delete temp;
+    }
+    else
+    {
+        // deleting any middle node or last node
+        Node *curr = head;
+        Node *prev = NULL;
+
+        int cnt = 1;
+        while (cnt < position)
+        {
+            prev = curr;
+            curr = curr->next;
+            cnt++;
+        }
+
+        curr->prev = NULL;
+        prev->next = curr->next;
+        curr->next = NULL;
+
+        delete curr;
+    }
+}
+
 int main()
 {
 
@@ -147,15 +191,34 @@ int main()
     cout << "Tail : " << tail->data << endl;
     // cout << getLength(head) << " size" << endl;
 
-    insertAtPosition(tail, head, 3, 100);
+    insertAtPosition(tail, head, 4, 10);
     print(head);
     cout << "Head : " << head->data << endl;
     cout << "Tail : " << tail->data << endl;
 
-    insertAtPosition(tail, head, 2, 110);
+    insertAtPosition(tail, head, 5, 11);
     print(head);
     cout << "Head : " << head->data << endl;
     cout << "Tail : " << tail->data << endl;
+
+    insertAtPosition(tail, head, 6, 12);
+    print(head);
+    cout << "Head : " << head->data << endl;
+    cout << "Tail : " << tail->data << endl;
+
+    deleteNode(1, head);
+    print(head);
+    cout << "Head : " << head->data << endl;
+    cout << "Tail : " << tail->data << endl;
+    deleteNode(2, head);
+    print(head);
+    cout << "Head : " << head->data << endl;
+    cout << "Tail : " << tail->data << endl;
+    deleteNode(3, head);
+    print(head);
+    cout << "Head : " << head->data << endl;
+    cout << "Tail : " << tail->data << endl;
+
 
     return 0;
 }
